@@ -14,6 +14,9 @@ locals {
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",
     "arn:aws:iam::aws:policy/CostOptimizationHubReadOnlyAccess",
   ]
+
+  external_role = format("arn:aws:iam::%s:role/aws-reserved/sso.amazonaws.com/%s/%s",
+  var.external_account_id, var.external_region, var.external_role_name)
 }
 
 #
@@ -30,7 +33,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
     effect  = "Allow"
     principals {
       type        = "AWS"
-      identifiers = [var.external_account_id]
+      identifiers = [local.external_role]
     }
   }
 }
