@@ -1,3 +1,4 @@
-external_account_id = "EXTERNAL_ACCOUNT_ID"
-region              = "REGION"
-
+enable_cost_analysis_support = false
+enable_landing_zone_support  = true
+external_account_id          = "EXTERNAL_ACCOUNT_ID"
+region                       = "REGION"

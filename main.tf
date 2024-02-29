@@ -4,9 +4,12 @@
 
 locals {
   # The IAM policies attached to the support role 
-  support_policies = [
-    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/CostsViewer",
-    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.support_role_policy}",
+  landing_zone_policies = [
+    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.landing_zone_policy_name}",
+  ]
+
+  finops_policies = [
+    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.costs_analysis_policy_name}",
     "arn:aws:iam::aws:policy/AWSBillingConductorReadOnlyAccess",
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",
     "arn:aws:iam::aws:policy/CostOptimizationHubReadOnlyAccess",
@@ -33,90 +36,25 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 #
-## Provision a role capable of viewign the landing zone codepipeline 
+## Provision the IAM policy to support viewing the codepipelines 
 #
-data "aws_iam_policy_document" "additional_permissions" {
-  statement {
-    sid       = "DenyCodeCommitPush"
-    effect    = "Deny"
-    actions   = ["codecommit:GitPush", "codecommit:CreateCommit"]
-    resources = ["*"]
-  }
+resource "aws_iam_policy" "landing_zone_policy" {
+  count = var.enable_landing_zone_support ? 1 : 0
 
-  statement {
-    sid    = "AllowCostExplorerView"
-    effect = "Allow"
-    actions = [
-      "ce:ListSavingsPlansPurchaseRecommendationGeneration",
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    sid       = "AllowCodePipelineTrigger"
-    effect    = "Allow"
-    actions   = ["codepipeline:RetryStageExecution", "codepipeline:StartPipelineExecution", "codepipeline:StopPipelineExecution"]
-    resources = ["arn:aws:codepipeline:*:*:AWSAccelerator-Pipeline"]
-  }
-
-  statement {
-    sid    = "AllowCodePipelineView"
-    effect = "Allow"
-    actions = [
-      "codepipeline:GetPipeline",
-      "codepipeline:GetPipelineExecution",
-      "codepipeline:GetPipelineState",
-      "codepipeline:ListPipelines",
-      "codepipeline:ListPipelineExecutions",
-      "codepipeline:ListPipelineExecutionsForPipeline",
-      "codepipeline:ListWebhooks",
-      "codepipeline:ListTagsForResource"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    sid    = "AllowCodeCommitView"
-    effect = "Allow"
-    actions = [
-      "codecommit:GetApprovalRuleTemplate",
-      "codecommit:GetRepository",
-      "codecommit:ListApprovalRuleTemplates",
-      "codecommit:ListRepositories",
-      "codecommit:ListRepositoriesForApprovalRuleTemplate"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    sid       = "AllowCodeBuildView"
-    effect    = "Allow"
-    actions   = ["codebuild:List*", "codebuild:Get*", "codebuild:BatchGet*"]
-    resources = ["*"]
-  }
-
-  statement {
-    sid       = "AllowCodeCommitActions"
-    effect    = "Allow"
-    actions   = ["codecommit:*"]
-    resources = ["arn:aws:codecommit:*:*:aws-accelerator-config"]
-  }
-
-  statement {
-    sid       = "AllowCodeCommitLogs"
-    effect    = "Allow"
-    actions   = ["logs:GetLogEvents"]
-    resources = ["arn:aws:logs:*:*:log-group:/aws/codebuild/AWSAccelerator*"]
-  }
+  name        = var.landing_zone_policy_name
+  description = "Provides the required permissions for enalbing landing zone support"
+  policy      = data.aws_iam_policy_document.landing_zone_policy.json
 }
 
 #
-## Provision the IAM policy to support viewing the codepipelines 
+## Provision if required the cost analysis policy 
 #
-resource "aws_iam_policy" "support_policy" {
-  name        = var.support_role_policy
-  description = "Policy to permit external provider additional permissioned required to deliver support"
-  policy      = data.aws_iam_policy_document.additional_permissions.json
+resource "aws_iam_policy" "cost_analysis_policy" {
+  count = var.enable_cost_analysis_support ? 1 : 0
+
+  name        = var.costs_analysis_policy_name
+  description = "Provides the required permissions for enalbing cost analysis"
+  policy      = data.aws_iam_policy_document.cost_analysis_policy.json
 }
 
 #
@@ -130,13 +68,26 @@ resource "aws_iam_role" "support_role" {
 }
 
 #
-## Attach the IAM policies to the support role
+## Attach the IAM policies for the landing zone role 
 #
-resource "aws_iam_role_policy_attachment" "support_policies" {
-  for_each = toset(local.support_policies)
+resource "aws_iam_role_policy_attachment" "landing_zone_policies" {
+  for_each = var.enable_landing_zone_support ? toset(local.landing_zone_policies) : []
 
   role       = aws_iam_role.support_role.name
   policy_arn = each.value
 
-  depends_on = [aws_iam_policy.support_policy]
+  depends_on = [aws_iam_policy.landing_zone_policy]
 }
+
+#
+## Attach if enabled the policies for the cost analysis role
+#
+resource "aws_iam_role_policy_attachment" "finops_policies" {
+  for_each = var.enable_cost_analysis_support ? toset(local.finops_policies) : []
+
+  role       = aws_iam_role.support_role.name
+  policy_arn = each.value
+
+  depends_on = [aws_iam_policy.cost_analysis_policy]
+}
+
