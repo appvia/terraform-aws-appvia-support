@@ -3,18 +3,7 @@
 #
 
 locals {
-  # The IAM policies attached to the support role 
-  landing_zone_policies = [
-    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.landing_zone_policy_name}",
-  ]
-
-  finops_policies = [
-    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.costs_analysis_policy_name}",
-    "arn:aws:iam::aws:policy/AWSBillingConductorReadOnlyAccess",
-    "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",
-    "arn:aws:iam::aws:policy/CostOptimizationHubReadOnlyAccess",
-  ]
-
+  # The full arn of the external role permitted access
   external_role = format("arn:aws:iam::%s:role/aws-reserved/sso.amazonaws.com/%s/%s",
   var.external_account_id, var.external_region, var.external_role_name)
 }
@@ -85,8 +74,8 @@ resource "aws_iam_role_policy_attachment" "landing_zone_policies" {
 #
 ## Attach if enabled the policies for the cost analysis role
 #
-resource "aws_iam_role_policy_attachment" "finops_policies" {
-  for_each = var.enable_cost_analysis_support ? toset(local.finops_policies) : []
+resource "aws_iam_role_policy_attachment" "cost_analysis_policies" {
+  for_each = var.enable_cost_analysis_support ? toset(local.cost_analysis_policies) : []
 
   role       = aws_iam_role.support_role.name
   policy_arn = each.value

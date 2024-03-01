@@ -14,6 +14,12 @@ variable "external_region" {
   default     = "eu-west-2"
 }
 
+variable "aws_accounts" {
+  description = "A map of the name at the account id"
+  type        = map(string)
+  default     = {}
+}
+
 variable "enable_landing_zone_support" {
   description = "Enable the creation of the support role in the customer account"
   type        = bool
@@ -32,6 +38,12 @@ variable "support_role_name" {
   default     = "LZASupportRole"
 }
 
+variable "cost_analysis_role_name" {
+  description = "The name of the role used to support the cudos dashboards"
+  type        = string
+  default     = "CostAnalysisSupportRole"
+}
+
 variable "landing_zone_policy_name" {
   description = "Customer managed support policy for landing zone"
   type        = string
@@ -42,6 +54,12 @@ variable "costs_analysis_policy_name" {
   description = "Customer managed support policy for cost analysis"
   type        = string
   default     = "CostAnalysisSupportPolicy"
+}
+
+variable "cudos_policy_name" {
+  description = "Customer managed support policy for dashboards"
+  type        = string
+  default     = "CudosSupportPolicy"
 }
 
 variable "tags" {

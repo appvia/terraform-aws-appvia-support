@@ -2,22 +2,22 @@
 ## Related to the outputs 
 #
 
-output "support_role_name" {
-  description = "The name of the IAM role to be assumed by the support team"
-  value       = var.support_role_name
+output "management_account_id" {
+  description = "The account id of the management account"
+  value       = data.aws_caller_identity.current.account_id
 }
 
-output "support_role_arn" {
-  description = "The ARN of the IAM role to be assumed by the support team"
+output "cudos_account_id" {
+  description = "The account id of the cudos account"
+  value       = var.aws_accounts["cudos"]
+}
+
+output "landing_support_arn" {
+  description = "The name of the IAM role to be assumed by the support team"
   value       = aws_iam_role.support_role.arn
 }
 
-output "landing_zone_policy_arn" {
-  description = "The ARN of the IAM policy to be attached to the support role"
-  value       = aws_iam_policy.landing_zone_policy[0].arn
-}
-
-output "cost_analysis_policy_arn" {
-  description = "The ARN of the IAM policy to be attached to the support role"
-  value       = aws_iam_policy.cost_analysis_policy[0].arn
+output "cudos_support_arn" {
+  description = "The ARN of the IAM role to be assumed by the support team for cudos"
+  value       = aws_iam_role.cudos_role[0].arn
 }
