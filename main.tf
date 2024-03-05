@@ -53,8 +53,9 @@ resource "aws_iam_policy" "cost_analysis_policy" {
 ## Provision the support role in the account, using the above trust policy
 #
 resource "aws_iam_role" "support_role" {
-  name = var.support_role_name
+  count = var.enable_cost_analysis_support ? 1 : 0
 
+  name               = var.support_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
   tags               = var.tags
 }
@@ -65,7 +66,7 @@ resource "aws_iam_role" "support_role" {
 resource "aws_iam_role_policy_attachment" "landing_zone_policies" {
   for_each = var.enable_landing_zone_support ? toset(local.landing_zone_policies) : []
 
-  role       = aws_iam_role.support_role.name
+  role       = aws_iam_role.support_role[0].name
   policy_arn = each.value
 
   depends_on = [aws_iam_policy.landing_zone_policy]
@@ -77,7 +78,7 @@ resource "aws_iam_role_policy_attachment" "landing_zone_policies" {
 resource "aws_iam_role_policy_attachment" "cost_analysis_policies" {
   for_each = var.enable_cost_analysis_support ? toset(local.cost_analysis_policies) : []
 
-  role       = aws_iam_role.support_role.name
+  role       = aws_iam_role.support_role[0].name
   policy_arn = each.value
 
   depends_on = [aws_iam_policy.cost_analysis_policy]

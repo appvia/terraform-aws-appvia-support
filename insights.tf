@@ -143,8 +143,6 @@ resource "aws_iam_role" "cudos_role" {
   name               = var.cost_analysis_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
   tags               = var.tags
-
-  provider = aws.cudos
 }
 
 #
@@ -157,8 +155,6 @@ resource "aws_iam_policy" "cudos_policy" {
   description = "Provides the required permissions for the CUDOS platform and support"
   policy      = data.aws_iam_policy_document.cudos_policy.json
   tags        = var.tags
-
-  provider = aws.cudos
 }
 
 #
@@ -169,8 +165,6 @@ resource "aws_iam_role_policy_attachment" "managed_cudos_policies" {
 
   role       = aws_iam_role.cudos_role[0].name
   policy_arn = each.value
-
-  provider = aws.cudos
 }
 
 #
@@ -181,6 +175,4 @@ resource "aws_iam_role_policy_attachment" "custom_cudos_policies" {
 
   role       = aws_iam_role.cudos_role[0].name
   policy_arn = aws_iam_policy.cudos_policy[0].arn
-
-  provider = aws.cudos
 }
