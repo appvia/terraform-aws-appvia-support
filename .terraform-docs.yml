@@ -1,0 +1,19 @@
+content: |-
+  # Example: AWS Landing Zone Support
+
+  This module creates IAM resources using Terraform in your AWS Account for Appvia to be able to provide remote support.
+
+  ## Deployment
+
+  View the examples directory for a sample deployment.
+
+  ## Updating Docs
+
+  The `terraform-docs` utility is used to generate this README. Follow the below steps to update:
+  1. Make changes to the `.terraform-docs.yml` file
+  2. Fetch the `terraform-docs` binary (https://terraform-docs.io/user-guide/installation/)
+  3. Run `terraform-docs markdown table --output-file ${PWD}/README.md --output-mode inject .`
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}

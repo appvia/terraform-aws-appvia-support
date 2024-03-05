@@ -1,8 +1,0 @@
-enable_cost_analysis_support = true
-enable_landing_zone_support  = true
-external_account_id          = "EXTERNAL_ACCOUNT_ID"
-region                       = "REGION"
-
-aws_accounts = {
-  "cudos" = "ACCOUNT_ID_CONTAINING_CUDOS"
-}
