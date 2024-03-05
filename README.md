@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Example: AWS Landing Zone Support
+# Appvia Support Roles
 
 This module creates IAM resources using Terraform in your AWS Account for Appvia to be able to provide remote support.
 
