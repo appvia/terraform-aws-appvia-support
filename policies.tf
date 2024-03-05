@@ -14,7 +14,6 @@ locals {
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",
     "arn:aws:iam::aws:policy/CostOptimizationHubReadOnlyAccess",
   ]
-
 }
 
 #

@@ -1,0 +1,22 @@
+content: |-
+  # Example: AWS Landing Zone Accelerator Support
+
+  This example demonstrates how to deploy the AWS Landing Zone Accelerator (LZA) support resources using Terraform in your AWS Management Account where Control Tower is configured.
+
+  ## Deployment
+
+  1. Copy the `terraform.tfvars.example` file to `terraform.tfvars` and update with your values.
+  2. Run `terraform init -upgrade`
+  3. Run `terraform plan -out=tfplan`
+  4. Run `terraform apply tfplan`
+
+  ## Updating Docs
+
+  The `terraform-docs` utility is used to generate this README. Follow the below steps to update:
+  1. Make changes to the `.terraform-docs.yml` file
+  2. Fetch the `terraform-docs` binary (https://terraform-docs.io/user-guide/installation/)
+  3. Run `terraform-docs markdown table --output-file ${PWD}/README.md --output-mode inject .`
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}

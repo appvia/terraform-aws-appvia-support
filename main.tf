@@ -9,11 +9,6 @@ locals {
 }
 
 #
-## Retrieve the account identifier 
-#
-data "aws_caller_identity" "current" {}
-
-#
 ## Create a IAM trust policy to permit the external role the ability to assume 
 #
 data "aws_iam_policy_document" "assume_role_policy" {
