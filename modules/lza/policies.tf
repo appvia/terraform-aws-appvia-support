@@ -9,7 +9,7 @@ locals {
   ]
 
   cost_analysis_policies = [
-    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.costs_analysis_policy_name}",
+    "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.cost_analysis_policy_name}",
     "arn:aws:iam::aws:policy/AWSBillingConductorReadOnlyAccess",
     "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess",
     "arn:aws:iam::aws:policy/CostOptimizationHubReadOnlyAccess",

@@ -1,6 +1,8 @@
-external_account_id          = "111122223333"
-external_region              = "eu-west-2"
-external_role_name           = "AWSReservedSSO_LZASupport_081263e2e62a4ea8"
+enable_cost_analysis_support     = true
+#external_account_id              = ""
+#external_costanalysis_role_name  = ""
+#external_lza_role_name           = ""
+external_region                  = "eu-west-2"
 tags = {
   Repository  = "Your Repository URL"
   Provisioner = "Terraform"

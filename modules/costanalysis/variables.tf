@@ -1,11 +1,10 @@
-variable "enable_cost_analysis_support" {
-  description = "Enable the creation of the finops role in the customer account"
-  type        = bool
-  default     = false
-}
-
 variable "external_account_id" {
   description = "The external account id from where the support role will be assumed"
+  type        = string
+}
+
+variable "external_role_name" {
+  description = "The external account name from where the support role will be assumed"
   type        = string
 }
 
@@ -15,15 +14,16 @@ variable "external_region" {
   default     = "eu-west-2"
 }
 
-variable "external_lza_role_name" {
-  description = "The external account name from where the support role will be assumed"
+variable "costs_analysis_policy_name" {
+  description = "Customer managed support policy for cost analysis"
   type        = string
+  default     = "AppviaCostAnalysisSupportPolicy"
 }
 
-variable "external_costanalysis_role_name" {
-  description = "The external account name from where the support role will be assumed"
+variable "cudos_policy_name" {
+  description = "Customer managed support policy for dashboards"
   type        = string
-  default     = ""
+  default     = "AppviaCudosSupportPolicy"
 }
 
 variable "tags" {

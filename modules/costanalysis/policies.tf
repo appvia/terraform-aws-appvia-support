@@ -1,17 +1,13 @@
 #
-## Provides the ability to support the cudos platform
+## Related to the IAM policies
 #
-
-locals {
-  # A collection of managed aws policies whoch should be attached to the support role
-  cudos_policies = []
-}
 
 #
 ## These permissions are used in the Cost Analytics accounts, and used to 
 ## support the cudos dashboards
 #
-data "aws_iam_policy_document" "cudos_policy" {
+# tfsec:ignore:aws-iam-no-policy-wildcards
+data "aws_iam_policy_document" "policy" {
   statement {
     sid    = "AllowQuickSightView"
     effect = "Allow"
@@ -134,45 +130,3 @@ data "aws_iam_policy_document" "cudos_policy" {
   }
 }
 
-#
-## Provision the support role in the account, using the above trust policy
-#
-resource "aws_iam_role" "cudos_role" {
-  count = var.enable_cost_analysis_support ? 1 : 0
-
-  name               = var.cost_analysis_role_name
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  tags               = var.tags
-}
-
-#
-## Provision the IAM policy for custom cusdos permissions 
-# 
-resource "aws_iam_policy" "cudos_policy" {
-  count = var.enable_cost_analysis_support ? 1 : 0
-
-  name        = var.cudos_policy_name
-  description = "Provides the required permissions for the CUDOS platform and support"
-  policy      = data.aws_iam_policy_document.cudos_policy.json
-  tags        = var.tags
-}
-
-#
-## Attach the required policies to the role 
-#
-resource "aws_iam_role_policy_attachment" "managed_cudos_policies" {
-  for_each = var.enable_cost_analysis_support ? toset(local.cudos_policies) : toset([])
-
-  role       = aws_iam_role.cudos_role[0].name
-  policy_arn = each.value
-}
-
-#
-## Attach the required policies to the role 
-# 
-resource "aws_iam_role_policy_attachment" "custom_cudos_policies" {
-  count = var.enable_cost_analysis_support ? 1 : 0
-
-  role       = aws_iam_role.cudos_role[0].name
-  policy_arn = aws_iam_policy.cudos_policy[0].arn
-}
