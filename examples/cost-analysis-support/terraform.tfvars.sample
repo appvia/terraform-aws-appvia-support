@@ -1,7 +1,7 @@
-external_account_id          = "111122223333"
+#external_account_id          = ""
 external_region              = "eu-west-2"
-external_role_name           = "AWSReservedSSO_LZASupport_081263e2e62a4ea8"
+#external_role_name           = ""
 tags = {
-  Repository  = "Your Repository URL"
+  Repository  = ""
   Provisioner = "Terraform"
 }
