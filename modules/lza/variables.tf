@@ -25,7 +25,7 @@ variable "enable_cost_analysis_support" {
   default     = false
 }
 
-variable "enable_codepipe_support" {
+variable "enable_codecommit_support" {
   description = "When the accelerator config is still in codecommit, we need permissions to raise changes only"
   type        = bool
   default     = false
