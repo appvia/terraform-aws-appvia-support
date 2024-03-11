@@ -22,25 +22,40 @@ locals {
 # 
 # tfsec:ignore:aws-iam-no-policy-wildcards
 data "aws_iam_policy_document" "landing_zone_policy" {
-  statement {
-    sid    = "DenyCodeCommit"
-    effect = "Deny"
-    actions = [
-      "codecommit:DeleteBranch",
-      "codecommit:GitPush",
-      "codecommit:MergeBranchesByFastForward",
-      "codecommit:MergeBranchesBySquash",
-      "codecommit:MergeBranchesByThreeWay",
-      "codecommit:MergePullRequestByFastForward",
-      "codecommit:MergePullRequestBySquash",
-      "codecommit:MergePullRequestByThreeWay",
-    ]
-    resources = ["*"]
+  dynamic "statement" {
+    for_each = var.enable_codecommit_support ? ["yes"] : []
 
-    condition {
-      test     = "StringLike"
-      variable = "codecommit:References"
-      values   = ["refs/heads/main", "refs/heads/main/*"]
+    content {
+      sid    = "DenyCodeCommit"
+      effect = "Deny"
+      actions = [
+        "codecommit:DeleteBranch",
+        "codecommit:GitPush",
+        "codecommit:MergeBranchesByFastForward",
+        "codecommit:MergeBranchesBySquash",
+        "codecommit:MergeBranchesByThreeWay",
+        "codecommit:MergePullRequestByFastForward",
+        "codecommit:MergePullRequestBySquash",
+        "codecommit:MergePullRequestByThreeWay",
+      ]
+      resources = ["*"]
+
+      condition {
+        test     = "StringLike"
+        variable = "codecommit:References"
+        values   = ["refs/heads/main", "refs/heads/main/*"]
+      }
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.enable_codecommit_support ? [] : ["no"]
+
+    content {
+      sid       = "DenyCodeCommitPush"
+      effect    = "Deny"
+      actions   = ["codecommit:GitPush", "codecommit:CreateCommit"]
+      resources = ["*"]
     }
   }
 

@@ -25,6 +25,12 @@ variable "enable_cost_analysis_support" {
   default     = false
 }
 
+variable "enable_codepipe_support" {
+  description = "When the accelerator config is still in codecommit, we need permissions to raise changes only"
+  type        = bool
+  default     = false
+}
+
 variable "landing_zone_policy_name" {
   description = "Customer managed support policy for landing zone"
   type        = string
