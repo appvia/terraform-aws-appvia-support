@@ -15,6 +15,6 @@ jobs:
 
   lza-module-validation:
     uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
-    name: Root Module Validation
+    name: Landing Zone Module Validation
     with:
       working-directory: "modules/lza"
