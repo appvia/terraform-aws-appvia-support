@@ -2,13 +2,19 @@ name: Terraform
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
     branches:
-    - main
-    - vnext
+      - main
+      - vnext
 
 jobs:
   root-module-validation:
     uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
     name: Root Module Validation
+
+  lza-module-validation:
+    uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
+    name: Root Module Validation
+    with:
+      working-directory: "modules/lza-support"

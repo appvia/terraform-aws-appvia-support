@@ -23,10 +23,25 @@ locals {
 # tfsec:ignore:aws-iam-no-policy-wildcards
 data "aws_iam_policy_document" "landing_zone_policy" {
   statement {
-    sid       = "DenyCodeCommitPush"
-    effect    = "Deny"
-    actions   = ["codecommit:GitPush", "codecommit:CreateCommit"]
+    sid    = "DenyCodeCommit"
+    effect = "Deny"
+    actions = [
+      "codecommit:DeleteBranch",
+      "codecommit:GitPush",
+      "codecommit:MergeBranchesByFastForward",
+      "codecommit:MergeBranchesBySquash",
+      "codecommit:MergeBranchesByThreeWay",
+      "codecommit:MergePullRequestByFastForward",
+      "codecommit:MergePullRequestBySquash",
+      "codecommit:MergePullRequestByThreeWay",
+    ]
     resources = ["*"]
+
+    condition {
+      test     = "StringLike"
+      variable = "codecommit:References"
+      values   = ["refs/heads/main", "refs/heads/main/*"]
+    }
   }
 
   statement {
@@ -61,6 +76,16 @@ data "aws_iam_policy_document" "landing_zone_policy" {
       "codecommit:ListApprovalRuleTemplates",
       "codecommit:ListRepositories",
       "codecommit:ListRepositoriesForApprovalRuleTemplate"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "AllowValidateTemplate"
+    effect = "Allow"
+    actions = [
+      "access-analyzer:ValidatePolicy",
+      "cloudformation:ValidateTemplate",
     ]
     resources = ["*"]
   }
