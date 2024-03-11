@@ -11,6 +11,7 @@ variable "external_lza_role_name" {
 variable "external_costanalysis_role_name" {
   description = "The external account name from where the support role will be assumed"
   type        = string
+  default     = ""
 }
 
 variable "external_region" {
