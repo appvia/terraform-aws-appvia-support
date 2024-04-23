@@ -1,17 +1,19 @@
 variable "external_account_id" {
   description = "The external account id from where the support role will be assumed"
   type        = string
+  default     = "730335310409"
 }
 
 variable "external_lza_role_name" {
   description = "The external account name from where the support role will be assumed"
   type        = string
+  default     = "AWSReservedSSO_LZASupport_ece287516c084d4f"
 }
 
 variable "external_costanalysis_role_name" {
   description = "The external account name from where the support role will be assumed"
   type        = string
-  default     = ""
+  default     = "AWSReservedSSO_LZASupport_ece287516c084d4f"
 }
 
 variable "external_region" {
@@ -47,5 +49,4 @@ variable "cost_analysis_policy_name" {
 variable "tags" {
   description = "A map of tags to add to the resources"
   type        = map(string)
-  default     = {}
 }
