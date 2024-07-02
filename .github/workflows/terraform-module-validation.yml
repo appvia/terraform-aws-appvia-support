@@ -23,3 +23,9 @@ jobs:
     name: Landing Zone Module Validation
     with:
       working-directory: "modules/lza"
+
+  cost-module-validation:
+    uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
+    name: Cost Analysis Module Validation
+    with:
+      working-directory: "modules/costanalysis"
