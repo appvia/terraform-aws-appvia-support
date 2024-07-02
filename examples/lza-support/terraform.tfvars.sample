@@ -1,8 +1,4 @@
 enable_cost_analysis_support     = true
-#external_account_id              = ""
-#external_costanalysis_role_name  = ""
-#external_lza_role_name           = ""
-external_region                  = "eu-west-2"
 tags = {
   Repository  = "Your Repository URL"
   Provisioner = "Terraform"

@@ -8,13 +8,20 @@ on:
       - main
       - vnext
 
-jobs:
-  root-module-validation:
-    uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
-    name: Root Module Validation
+permissions:
+  contents: read
+  packages: write
+  pull-requests: write
 
+jobs:
   lza-module-validation:
     uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
     name: Landing Zone Module Validation
     with:
       working-directory: "modules/lza"
+
+  cost-module-validation:
+    uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
+    name: Cost Analysis Module Validation
+    with:
+      working-directory: "modules/costanalysis"
