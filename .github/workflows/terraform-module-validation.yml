@@ -14,10 +14,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  root-module-validation:
-    uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
-    name: Root Module Validation
-
   lza-module-validation:
     uses: appvia/appvia-cicd-workflows/.github/workflows/terraform-module-validation.yml@main
     name: Landing Zone Module Validation
