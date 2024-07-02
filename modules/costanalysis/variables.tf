@@ -16,12 +16,6 @@ variable "external_region" {
   default     = "eu-west-2"
 }
 
-variable "costs_analysis_policy_name" {
-  description = "Customer managed support policy for cost analysis"
-  type        = string
-  default     = "AppviaCostAnalysisSupportPolicy"
-}
-
 variable "cudos_policy_name" {
   description = "Customer managed support policy for dashboards"
   type        = string
