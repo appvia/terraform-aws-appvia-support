@@ -29,7 +29,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_costs_analysis_policy_name"></a> [costs\_analysis\_policy\_name](#input\_costs\_analysis\_policy\_name) | Customer managed support policy for cost analysis | `string` | `"AppviaCostAnalysisSupportPolicy"` | no |
 | <a name="input_cudos_policy_name"></a> [cudos\_policy\_name](#input\_cudos\_policy\_name) | Customer managed support policy for dashboards | `string` | `"AppviaCudosSupportPolicy"` | no |
 | <a name="input_external_account_id"></a> [external\_account\_id](#input\_external\_account\_id) | The external account id from where the support role will be assumed | `string` | `"730335310409"` | no |
 | <a name="input_external_region"></a> [external\_region](#input\_external\_region) | The external region from where the support role will be assumed | `string` | `"eu-west-2"` | no |
