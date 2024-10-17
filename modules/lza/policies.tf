@@ -83,6 +83,17 @@ data "aws_iam_policy_document" "landing_zone_policy" {
   }
 
   statement {
+    sid    = "AllowCloudformationView"
+    effect = "Allow"
+    actions = [
+      "cloudformation:Describe*",
+      "cloudformation:Get*",
+      "cloudformation:List*",
+    ]
+    resources = ["*"]
+  }
+
+  statement {
     sid    = "AllowCodeCommitView"
     effect = "Allow"
     actions = [
