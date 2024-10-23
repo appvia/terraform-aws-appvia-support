@@ -33,6 +33,65 @@ data "aws_iam_policy_document" "policy" {
   }
 
   statement {
+    sid    = "AllowStepFunctions"
+    effect = "Allow"
+    actions = [
+      "states:Describe*",
+      "states:Get*",
+      "states:List*",
+      "states:StartExecution",
+      "states:StopExecution"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "AllowCloudWatchLogs"
+    effect = "Allow"
+    actions = [
+      "logs:DescribeLogGroups",
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "AllowLambda"
+    effect = "Allow"
+    actions = [
+      "lambda:GetFunction",
+      "lambda:ListFunctions",
+      "lambda:GetFunctionConfiguration",
+      "lambda:ListTags",
+      "lambda:ListVersionsByFunction",
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "AllowCudosLogs"
+    effect = "Allow"
+    actions = [
+      "logs:DescribeLogStreams",
+      "logs:GetLogEvents",
+      "logs:FilterLogEvents"
+    ]
+    resources = [
+      "arn:aws:logs:*:*:log-group:/aws/lambda/CID-DC*",
+    ]
+  }
+
+  statement {
+    sid    = "AllowCloudWatchAlarms"
+    effect = "Allow"
+    actions = [
+      "cloudwatch:Describe*",
+      "cloudwatch:List*",
+      "cloudwatch:Get*",
+    ]
+    resources = ["*"]
+  }
+
+  statement {
     sid       = "AllowAthenaAdmin"
     effect    = "Allow"
     actions   = ["athena:*"]
