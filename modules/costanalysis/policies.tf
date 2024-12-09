@@ -3,7 +3,7 @@
 #
 
 #
-## These permissions are used in the Cost Analytics accounts, and used to 
+## These permissions are used in the Cost Analytics accounts, and used to
 ## support the cudos dashboards
 #
 # tfsec:ignore:aws-iam-no-policy-wildcards
@@ -58,9 +58,10 @@ data "aws_iam_policy_document" "policy" {
     sid    = "AllowLambda"
     effect = "Allow"
     actions = [
+      "lambda:GetAccountSettings",
       "lambda:GetFunction",
-      "lambda:ListFunctions",
       "lambda:GetFunctionConfiguration",
+      "lambda:ListFunctions",
       "lambda:ListTags",
       "lambda:ListVersionsByFunction",
     ]
