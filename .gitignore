@@ -5,6 +5,9 @@
 *.tfstate
 *.tfstate.*
 
+# terraform lock file
+.terraform.lock.hcl
+
 # Crash log files
 crash.log
 crash.*.log
@@ -28,6 +31,17 @@ terraform.rc
 
 # Other
 .DS_Store
+todo.md
 
-# Internal 
-values/support.tfvars
+# Ignore vim swap files
+*.swp
+*.swo
+
+# Ignore meld diff files
+*.orig
+*.backup
+*.rej
+
+# Ignore lambda zip files and build directories
+*.zip
+builds/
