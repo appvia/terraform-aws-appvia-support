@@ -181,8 +181,10 @@ data "aws_iam_policy_document" "cost_analysis_policy" {
       "aws-portal:ViewUsage",
       "cur:DeleteReportDefinition",
       "cur:DescribeReportDefinitions",
+      "cur:ListTagsForResource",
       "cur:ModifyReportDefinition",
       "cur:PutReportDefinition",
+      "cur:ValidateReportDestination",
     ]
     resources = ["*"]
   }
