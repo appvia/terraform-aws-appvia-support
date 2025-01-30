@@ -136,6 +136,20 @@ data "aws_iam_policy_document" "landing_zone_policy" {
     actions   = ["logs:GetLogEvents"]
     resources = ["arn:aws:logs:*:*:log-group:/aws/codebuild/AWSAccelerator*"]
   }
+
+  statement {
+    sid       = "AllowBCMDataExportLists"
+    effect    = "Allow"
+    actions   = ["bcm-data-exports:ListExports"]
+    resources = ["arn:aws:bcm-data-exports:*:*:*/*"]
+  }
+
+  statement {
+    sid       = "AllowCURDescribeReportDefinitions"
+    effect    = "Allow"
+    actions   = ["cur:DescribeReportDefinitions"]
+    resources = ["arn:*:cur:*:*:definition/*"]
+  }
 }
 
 #
@@ -181,8 +195,10 @@ data "aws_iam_policy_document" "cost_analysis_policy" {
       "aws-portal:ViewUsage",
       "cur:DeleteReportDefinition",
       "cur:DescribeReportDefinitions",
+      "cur:ListTagsForResource",
       "cur:ModifyReportDefinition",
       "cur:PutReportDefinition",
+      "cur:ValidateReportDestination",
     ]
     resources = ["*"]
   }
