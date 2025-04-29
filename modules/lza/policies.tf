@@ -6,6 +6,7 @@ locals {
   # The IAM policies attached to the support role 
   landing_zone_policies = [
     "arn:aws:iam::${data.aws_caller_identity.current.id}:policy/${var.landing_zone_policy_name}",
+    "arn:aws:iam::aws:policy/AWSOrganizationsReadOnlyAccess",
   ]
 
   cost_analysis_policies = [
