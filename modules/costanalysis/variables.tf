@@ -1,13 +1,13 @@
 variable "external_account_id" {
   description = "The external account id from where the support role will be assumed"
   type        = string
-  default     = "730335310409"
+  default     = "148761643183"
 }
 
 variable "external_role_name" {
   description = "The external account name from where the support role will be assumed"
   type        = string
-  default     = "AWSReservedSSO_LZASupport_ece287516c084d4f"
+  default     = "AWSReservedSSO_LandingZoneSupport_bed6bf8641dc41f3"
 }
 
 variable "external_region" {
