@@ -8,11 +8,38 @@
 
 # Appvia Support Roles
 
-This repository provides a collection of sub modules used to provision the appropriate support roles and permissions with accounts. Please take a look at the examples folder for samples of how to implement.
+This repository provides a collection of Terraform sub-modules used to provision the appropriate support roles and permissions within your AWS accounts. Each module is independently deployable and scoped to a specific support function.
+
+## Modules
+
+### [LZA Support](modules/lza/README.md)
+
+Deploys into your **AWS management account** (where Control Tower and the Landing Zone Accelerator pipeline run). It provisions a cross-account IAM role that Appvia's support team can assume to monitor and troubleshoot the LZA deployment.
+
+Key resources:
+- `AppviaLZASupportRole` — cross-account role with a trust policy scoped to Appvia's SSO role
+- `AppviaLZASupportPolicy` — grants view and trigger access to CodePipeline, CloudFormation, CodeBuild, and CodeCommit
+- `AppviaCostAnalysisSupportPolicy` *(optional)* — grants read access to Cost Explorer, Billing, and Cost Optimization Hub; enabled via `enable_cost_analysis_support = true`
+
+→ [Module README](modules/lza/README.md) · [Example](examples/lza-support/README.md)
+
+---
+
+### [Cost Analysis Support](modules/costanalysis/README.md)
+
+Deploys into your **AWS Cost Analysis account** (where CUDOS dashboards and CUR data are hosted). It provisions a cross-account IAM role that Appvia's team can assume to support the CUDOS platform and cost reporting tooling.
+
+Key resources:
+- `AppviaCostAnalysisSupportRole` — cross-account role with a trust policy scoped to Appvia's SSO role
+- `AppviaCudosSupportPolicy` — grants access to QuickSight, Athena, Glue, S3 (CID/CUDOS buckets), Step Functions, Lambda, and CloudWatch Logs
+
+→ [Module README](modules/costanalysis/README.md) · [Example](examples/cost-analysis-support/README.md)
+
+---
 
 ## Deployment
 
-View the examples directory for a sample deployment.
+See the [examples](examples/) directory for sample deployments of each module.
 
 <!-- BEGIN_TF_DOCS -->
 ## Providers

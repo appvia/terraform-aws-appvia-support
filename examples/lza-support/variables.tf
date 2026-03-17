@@ -1,7 +1,7 @@
 variable "enable_cost_analysis_support" {
   description = "Enable the creation of the finops role in the customer account"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "tags" {
